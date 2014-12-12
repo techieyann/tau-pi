@@ -1,0 +1,10 @@
+<template name="alert">
+	{{#if alertActive}}
+	<div class="row">
+		<div id="mainAlert" class="alert alert-{{alertLevel}} alert-dismissible {{centered}} fade-in" role="alert">
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			{{alertMessage}}
+		</div>
+	</div>
+	{{/if}}
+</template>

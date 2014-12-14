@@ -42,7 +42,7 @@ Meteor.setInterval(function () {
 			var lastVote = status.lastVote.time;
 			var now = moment();
 			var diff = now.diff(lastVote);
-			Session.set('voteDiff', diff%5000);
+			Session.set('voteDiff', diff%5500);
 		}
 	}
 }, 500);

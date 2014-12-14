@@ -24,7 +24,7 @@ Template.wordInput.helpers({
 		if (Session.equals('numVotes', 0)) return 0;
 		var voteDiff = Session.get('voteDiff');
 
-		return (voteDiff/50);
+		return (voteDiff/55);
 	},
 	votes: function () {
 		return Session.get('numVotes');

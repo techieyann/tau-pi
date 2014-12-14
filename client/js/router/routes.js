@@ -1,3 +1,4 @@
+var NUM_WORDS = 60;
 Router.map(function () {
 
 	this.route('welcome', {
@@ -11,8 +12,8 @@ Router.map(function () {
 		data: function () {
 			var status = Status.findOne();
 			if (status) {
-				if (status.wordNum > 30) {
-					return Words.find({}, {skip: status.wordNum-30, limit: 30});				
+				if (status.wordNum > NUM_WORDS) {
+					return Words.find({}, {skip: status.wordNum-NUM_WORDS, limit: NUM_WORDS});				
 				}
 				return Words.find();				
 			}

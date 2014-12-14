@@ -24,7 +24,7 @@ Template.wordInput.helpers({
 		if (Session.equals('numVotes', 0)) return 0;
 		var voteDiff = Session.get('voteDiff');
 
-		return (voteDiff/55);
+		return (voteDiff/50);
 	},
 	votes: function () {
 		return Session.get('numVotes');
@@ -41,8 +41,8 @@ Meteor.setInterval(function () {
 		if (status.lastVote) {
 			var lastVote = status.lastVote.time;
 			var now = moment();
-			var diff = now.diff(lastVote);
-			Session.set('voteDiff', diff%5500);
+			var diff = now.diff(lastVote) - 1000;
+			Session.set('voteDiff', diff%5000);
 		}
 	}
 }, 500);

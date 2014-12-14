@@ -47,6 +47,31 @@ Meteor.setInterval(function () {
 	}
 }, 500);
 
+var nonoList = [
+	'arse',
+	'ass',
+	'asshole',
+	'bastard',
+	'bitch',
+	'bollocks',
+	'cunt',
+	'damn',
+	'fuck',
+	'goddamn',
+	'motherfucker',
+	'shit',
+	'nigger',
+	'kike',
+	'chink',
+	'jap',
+	'spic'
+];
+
+var censored = function (word) {
+	if (nonoList.indexOf(word.toLowerCase()) != -1) return true;
+	return false;
+};
+
 Template.wordInput.events = {
 	'submit #new-word-form': function (e) {
 		e.preventDefault();
@@ -66,12 +91,17 @@ Template.wordInput.events = {
 				$('#new-word').focus();
 				return;
 			}
+			if (censored(newWord)) {
+				alert('warning', 'The word "'+newWord+'" is not allowed');
+				$('#new-word').val('');
+				$('#new-word').focus();
+				return;
+			}
 			Meteor.call('voteWord', newWord, function (err) {
 				if (err) {
 					alert('danger', 'Voting Error: '+err.message);
 					return;
 				}
-				alert('success', 'Voting Success: "'+newWord+'"');
 				$('#new-word').val('');
 				$('#new-word').focus();
 			});

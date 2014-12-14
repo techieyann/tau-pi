@@ -1,3 +1,7 @@
+body{
+		background-image: url("/images/dark_wood_panel.jpg");
+}
+
 #login-dropdown-list .dropdown-toggle{
 		line-height:3.5;
 }
@@ -17,6 +21,15 @@
 		z-index:9999;
 }
 
+.centered{
+		text-align:center;
+}
+
+.white{
+		color:white;
+}
+
 footer{
 		text-align:center;
+		color:white;
 }

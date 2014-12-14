@@ -12,3 +12,7 @@ iron:router
 nemo64:bootstrap
 mrt:accounts-ui-bootstrap-3
 less
+accounts-facebook
+accounts-twitter
+accounts-google
+

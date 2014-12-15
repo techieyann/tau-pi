@@ -27,10 +27,9 @@ processVotes = function () {
 	var status = Status.findOne();
 	if (status) {
 		if (status.voting) {
-			var votes = Votes.find({number: status.wordNum});
-			if (votes.count() != 0) {
+			if (status.votes != 0) {
 				Status.update({_id: status._id}, {$set: {voting: false}});
-				var totalVotes = votes.count();
+				var totalVotes = status.votes;
 				var votesByWord = {};
 				var highest = 0;
 				var winningWord = '';

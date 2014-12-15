@@ -73,7 +73,7 @@ var censored = function (word) {
 };
 
 Template.wordInput.events = {
-	'submit #new-word-form': function (e) {
+	'submit #new-word-form, click #new-word-submit': function (e) {
 		e.preventDefault();
 		var status = Status.findOne();
 		if (status.voting) {

@@ -13,5 +13,6 @@ Meteor.startup(function () {
 		Status.insert(init);
 	}
 	console.log("LISTENING"); 
+	numCycles = 0;
 	Meteor.setInterval(updateStatus, 500);
 });

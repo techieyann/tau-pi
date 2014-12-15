@@ -1,4 +1,4 @@
-var numCycles = 0;
+
 
 updateStatus = function () {
 	var status = Status.findOne();

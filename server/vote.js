@@ -27,6 +27,7 @@ processVotes = function () {
 	var status = Status.findOne();
 	if (status) {
 		if (status.voting) {
+			var votes = Votes.find({number: status.wordNum});
 			if (status.votes != 0) {
 				Status.update({_id: status._id}, {$set: {voting: false}});
 				var totalVotes = status.votes;

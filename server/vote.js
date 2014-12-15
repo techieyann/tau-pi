@@ -12,7 +12,7 @@ updateStatus = function () {
 			status.votes = votes;
 			Status.update({_id: statusId}, {$set: status});
 		}
-		if (numCycles == 10) {
+		if (numCycles >= 10) {
 			processVotes();
 			numCycles = 0;
 			return;

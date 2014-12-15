@@ -14,5 +14,6 @@ Meteor.startup(function () {
 	}
 	console.log("LISTENING"); 
 	numCycles = 0;
+	updating = false;
 	Meteor.setInterval(updateStatus, 500);
 });

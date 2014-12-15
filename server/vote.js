@@ -1,22 +1,25 @@
 
 
 updateStatus = function () {
-	var status = Status.findOne();
-	var statusId = status._id;
-	delete status._id;
-	if (status) {
-		numCycles = numCycles + 1;
-		if (status.voting) {
-			status.percent = numCycles*10;
-			var votes = Votes.find({number: status.wordNum}).count();
-			status.votes = votes;
-			Status.update({_id: statusId}, {$set: status});
+	if (!updating) {
+		updating = true;
+		var status = Status.findOne();
+		var statusId = status._id;
+		delete status._id;
+		if (status) {
+			numCycles = numCycles + 1;
+			if (status.voting) {
+				status.percent = numCycles*10;
+				var votes = Votes.find({number: status.wordNum}).count();
+				status.votes = votes;
+				Status.update({_id: statusId}, {$set: status});
+			}
+			if (numCycles >= 10) {
+				numCycles = 0;
+				processVotes();
+			}
 		}
-		if (numCycles == 10) {
-			numCycles = 0;
-			processVotes();
-			return;
-		}
+		updating = false;
 	}
 }
 

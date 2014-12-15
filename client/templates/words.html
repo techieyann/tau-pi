@@ -17,13 +17,14 @@
 <template name="wordInput">
 	<div class="row">
 		<div class="col-xs-6 col-sm-4 col-md-2 col-xs-offset-3 col-sm-offset-4 col-md-offset-5">
-			{{#if voting}}
+
 
 			<div class="progress">
-				<div class="progress-bar" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
+				<div class="progress-bar {{progressStyle}}" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
 					{{votes}} vote{{pluralizeVote}}
 				</div>
 			</div>
+			{{#if voting}}
 			<form id="new-word-form" class="form-inline" role="form">
 				<div class="input-group">
 					<input type="text" class="form-control" id="new-word" name="word" placeholder="next word...">

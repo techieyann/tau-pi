@@ -20,6 +20,17 @@ Template.wordInput.helpers({
 		}
 		return false;
 	},
+	progressStyle: function () {
+		var status = Status.findOne();
+		if (status) {
+			if (status.percent == 100) {
+				if (status.votes == 0) {
+					return 'progress-bar-warning';
+				}
+				return 'progress-bar-success';
+			}
+		}
+	},
 	percent: function () {
 		var status = Status.findOne();
 		if (status) {

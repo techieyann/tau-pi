@@ -1,3 +1,29 @@
+var numCycles = 0;
+
+updateStatus = function () {
+	var status = Status.findOne();
+	var statusId = status._id;
+	delete status._id;
+	if (status) {
+		numCycles = numCycles + 1;
+		if (numCycles == 10) {
+			processVotes();
+			numCycles = 0;
+			return;
+		}
+		if (status.voting) {
+			if (status.lastVote) {
+				var diff = moment().diff(status.lastVote.time);
+				status.percent = (diff%5000)/50;
+			}
+			var votes = Votes.find({number: status.wordNum}).count();
+			status.votes = votes;
+
+			Status.update({_id: statusId}, {$set: status});
+		}
+	}
+}
+
 processVotes = function () {
 	var status = Status.findOne();
 	if (status) {
@@ -39,7 +65,7 @@ processVotes = function () {
 					};
 					Words.insert(newWord);
 
-					Status.update({_id: status._id}, {$inc: {wordNum: 1}, $set: {voting: true, lastVote: {time: votedAt, numVotes: totalVotes}}});				
+					Status.update({_id: status._id}, {$inc: {wordNum: 1}, $set: {voting: true, votes: 0, percent: 0, lastVote: {time: votedAt, numVotes: totalVotes}}});				
 				}
 
 			}

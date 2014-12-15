@@ -6,12 +6,12 @@ Meteor.startup(function () {
 	if (!status) {
 		var init = {
 			voting: true,
-			wordNum: 1
+			wordNum: 1,
+			percent: 0,
+			votes: 0
 		};
 		Status.insert(init);
 	}
 	console.log("LISTENING"); 
-
-	Meteor.setInterval(processVotes, 5000);
-
+	Meteor.setInterval(updateStatus, 500);
 });

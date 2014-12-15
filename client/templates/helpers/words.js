@@ -21,31 +21,29 @@ Template.wordInput.helpers({
 		return false;
 	},
 	percent: function () {
-		if (Session.equals('numVotes', 0)) return 0;
-		var voteDiff = Session.get('voteDiff');
-
-		return (voteDiff/50);
+		var status = Status.findOne();
+		if (status) {
+			return status.percent;
+		}
+		return 0;
 	},
 	votes: function () {
-		return Session.get('numVotes');
+		var status = Status.findOne();
+		if (status) {
+			return status.votes;
+		}
+		return 0;
+	},
+	pluralizeVote: function () {
+		var status = Status.findOne();
+		if (status) {
+			if (status.votes != 1) return 's';
+		}
 	},
 	focus: function () {
 		Meteor.setTimeout(function () {$('#new-word').focus();}, 200);
 	}
 });
-
-Meteor.setInterval(function () {
-	var status = Status.findOne();
-	if (status) {
-		Session.set('numVotes', Votes.find({number: status.wordNum}).count());
-		if (status.lastVote) {
-			var lastVote = status.lastVote.time;
-			var now = moment();
-			var diff = now.diff(lastVote) - 1000;
-			Session.set('voteDiff', diff%5000);
-		}
-	}
-}, 500);
 
 var nonoList = [
 	'arse',

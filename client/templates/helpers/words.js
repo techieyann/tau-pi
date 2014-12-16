@@ -16,7 +16,7 @@ Template.words.helpers({
 		}
 	},
 	moment: function () {
-		return moment(this.time).format('hh:mm:ss MMMM Do, YYYY');
+		return moment(this.time).format('h:mm:ss a - MMMM Do, YYYY');
 	}
 });
 

@@ -1,12 +1,22 @@
 var scrub = function (word) {
 	return word.replace(/[0123456789_\W]/g, '');
 };
+Template.words.rendered = function () {
+	this.autorun(function () {
+		var temp = Template.currentData();
+		$('.new-tooltip').tooltip();
+		$('.new-tooltip').removeClass('new-tooltip');
+
+	});
+};
 Template.words.helpers({
-	newVote: function () {
-		var status = Status.findOne();
-		if (status) {
-			return Votes.find({number: status.wordNum}, {sort: {time: -1}, limit: 5});
+	words: function () {
+		if (this) {
+			return this;
 		}
+	},
+	moment: function () {
+		return moment(this.time).format('hh:mm:ss MMMM Do, YYYY');
 	}
 });
 
@@ -19,6 +29,16 @@ Template.wordInput.helpers({
 			}
 		}
 		return false;
+	},
+	newVote: function () {
+		if (Meteor.user()) {
+			var status = Status.findOne();
+			if (status) {
+				var votes = Votes.find({number: status.wordNum}, {sort: {time: -1}, limit: 5});
+				if (votes.count()) return Votes.find({number: status.wordNum}, {sort: {time: -1}, limit: 5});
+				return 0;
+			}
+		}
 	},
 	progressStyle: function () {
 		var status = Status.findOne();
@@ -49,6 +69,20 @@ Template.wordInput.helpers({
 		var status = Status.findOne();
 		if (status) {
 			if (status.votes != 1) return 's';
+		}
+	},
+
+	currentVote: function () {
+		var status = Status.findOne();
+		if (status) {
+			var vote = Votes.findOne({$and: [{number: status.wordNum}, {member: Meteor.user()._id}]});
+			if (vote) return vote.word;
+			return 'next word...';
+		}
+	},
+	numWordsWon: function () {
+		if (Meteor.user()) {
+			if (Meteor.user().profile) return Meteor.user().profile.winningWords;
 		}
 	},
 	focus: function () {
@@ -111,6 +145,7 @@ Template.wordInput.events = {
 					alert('danger', 'Voting Error: '+err.message);
 					return;
 				}
+				Session.set("currentVote", newWord);
 				$('#new-word').val('');
 				$('#new-word').focus();
 			});

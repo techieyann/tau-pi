@@ -1,40 +1,50 @@
 <template name="words">
 	<div class="row">
-
 		<p class="col-xs-10 col-md-6 col-xs-offset-1 col-md-offset-3 well">
-			{{#each this}}
-			{{word}} 
-			{{/each}}
+		{{#each words}}
+			<span class="new-tooltip" data-toggle="tooltip" data-placement="bottom" title="votes:{{votes}} {{#if totalVotes}}of:{{totalVotes}}{{/if}} @{{moment}}">{{word}} </span>
+		{{/each}}
 		</p>
-			<p class="col-xs-10 col-md-6 col-xs-offset-1 col-md-offset-3 white centered">
-			{{#each newVote}}
-			{{word}} ...
-			{{/each}}
-			</p>
 	</div>
+
+
 </template>
 
 <template name="wordInput">
+	<div class="row">
+			{{#if newVote}}
+		<p class="white centered">
+			{{#each newVote}}
+			<strong>{{word}}</strong> ...
+			{{/each}}
+		</p>
+			{{/if}}
+	</div>
 	<div class="row">
 		<div class="col-xs-6 col-sm-4 col-md-2 col-xs-offset-3 col-sm-offset-4 col-md-offset-5">
 
 
 			<div class="progress">
 				<div class="progress-bar {{progressStyle}}" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
+					{{#if votes}}
 					{{votes}} vote{{pluralizeVote}}
+					{{/if}}
 				</div>
 			</div>
 			{{#if voting}}
+
 			<form id="new-word-form" class="form-inline" role="form">
 				<div class="input-group">
-					<input type="text" class="form-control" id="new-word" name="word" placeholder="next word...">
+					<input type="text" class="form-control" id="new-word" name="word" placeholder="{{currentVote}}">
 					<span class="input-group-btn">
 						<button id="new-word-submit" class="btn btn-default" value="submit" type="button" >Vote</button>
 					</span>
 				</div>
 					{{focus}}
 			</form>
-
+			{{#if numWordsWon}}
+			<p class="white centered">Words: {{numWordsWon}}</p> 
+			{{/if}}
 			{{else}}
 			<p class="white centered">Currently tabulating votes</p>
 			{{/if}}

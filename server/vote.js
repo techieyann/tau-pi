@@ -4,16 +4,25 @@ updateStatus = function () {
 	if (!updating) {
 		updating = true;
 		var status = Status.findOne();
-		var statusId = status._id;
-		delete status._id;
 		if (status) {
+			var pv = pvStatus.findOne({statusId: status._id});
+			if (!pv) {
+				pv = {
+					statusId: status._id,
+					percent: 0,
+					votes: 0
+				};
+				pvStatus.insert(pv);
+			}
+			else delete pv._id;
 			numCycles = numCycles + 1;
 			if (status.voting) {
-				status.percent = numCycles*10;
+				pv.percent = numCycles*10;
 				var votes = Votes.find({number: status.wordNum}).count();
-				status.votes = votes;
-				Status.update({_id: statusId}, {$set: status});
+				pv.votes = votes;
+				pvStatus.update({statusId: status._id}, {$set: pv});
 			}
+
 			if (numCycles >= 10) {
 				numCycles = -1;
 				processVotes();
@@ -26,11 +35,12 @@ updateStatus = function () {
 processVotes = function () {
 	var status = Status.findOne();
 	if (status) {
-		if (status.voting) {
+		var pv = pvStatus.findOne({statusId: status._id}); 
+		if (pv) {
 			var votes = Votes.find({number: status.wordNum});
-			if (status.votes != 0) {
+			if (pv.votes != 0) {
 				Status.update({_id: status._id}, {$set: {voting: false}});
-				var totalVotes = status.votes;
+				var totalVotes = pv.votes;
 				var votesByWord = {};
 				var membersByWord = {};
 				var highest = 0;
@@ -76,7 +86,7 @@ processVotes = function () {
 						votedBy: membersByWord[winningWord]
 					};
 					Words.insert(newWord);
-					Status.update({_id: status._id}, {$inc: {wordNum: 1}, $set: {voting: true, lastVote: {time: votedAt, numVotes: totalVotes}}});
+					Status.update({_id: status._id}, {$inc: {wordNum: 1}, $set: {voting: true, lastVote: votedAt}});
 					Meteor.users.update({_id: {$in: membersByWord[word]}}, {$inc: {'profile.winningWords': 1}});
 				}
 			}		

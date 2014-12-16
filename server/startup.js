@@ -12,6 +12,11 @@ Meteor.startup(function () {
 		};
 		Status.insert(init);
 	}
+	else {
+		if (!status.voting) {
+			Status.update({_id: status._id}, {$set: {voting: true}});
+		}
+	}
 	console.log("LISTENING"); 
 	numCycles = 0;
 	updating = false;

@@ -22,7 +22,7 @@ Template.words.helpers({
 
 Template.wordInput.helpers({
 	voting: function () {
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status) {
 			if (status.voting) {
 				return true;
@@ -32,7 +32,7 @@ Template.wordInput.helpers({
 	},
 	newVote: function () {
 		if (Meteor.user()) {
-			var status = Status.findOne();
+			var status = Session.get('status');
 			if (status) {
 				var votes = Votes.find({number: status.wordNum}, {sort: {time: -1}, limit: 5});
 				if (votes.count()) return Votes.find({number: status.wordNum}, {sort: {time: -1}, limit: 5});
@@ -41,7 +41,7 @@ Template.wordInput.helpers({
 		}
 	},
 	progressStyle: function () {
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status) {
 			if (status.percent == 100) {
 				if (status.votes == 0) {
@@ -52,28 +52,30 @@ Template.wordInput.helpers({
 		}
 	},
 	percent: function () {
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status) {
-			return status.percent;
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs) return pvs.percent;
 		}
 		return 0;
 	},
 	votes: function () {
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status) {
-			return status.votes;
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs) return pvs.votes;
 		}
 		return 0;
 	},
 	pluralizeVote: function () {
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status) {
-			if (status.votes != 1) return 's';
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs.votes != 1) return 's';
 		}
 	},
-
 	currentVote: function () {
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status) {
 			var vote = Votes.findOne({$and: [{number: status.wordNum}, {member: Meteor.user()._id}]});
 			if (vote) return vote.word;
@@ -118,7 +120,7 @@ var censored = function (word) {
 Template.wordInput.events = {
 	'submit #new-word-form, click #new-word-submit': function (e) {
 		e.preventDefault();
-		var status = Status.findOne();
+		var status = Session.get('status');
 		if (status.voting) {
 			var newWord = $('#new-word').val();
 			if (newWord.indexOf(' ') != -1) {

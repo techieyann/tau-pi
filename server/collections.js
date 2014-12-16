@@ -10,3 +10,7 @@ Meteor.publish('status', function () {
 	return Status.find();
 });
 
+Meteor.publish('percent-votes', function () {
+	return pvStatus.find();
+});
+

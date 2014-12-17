@@ -20,6 +20,29 @@ body{
 		margin-right:25%;
 		z-index:9999;
 }
+#word-date-bookend{
+		padding: 0px;
+}
+#words-well{
+		position:relative;
+}
+#first-date{
+		position: absolute;
+		top:-20px;
+		left:0px;
+		color: #cccccc;
+}
+
+#last-date{
+		position: absolute;
+		bottom:-20px;
+		right:0px;
+		color: #bbbbbb;
+}
+
+.full-width{
+		width:100%;
+}
 
 .centered{
 		text-align:center;
@@ -27,6 +50,10 @@ body{
 
 .white{
 		color:white;
+}
+
+.transparent{
+		opacity: .8;
 }
 
 footer{

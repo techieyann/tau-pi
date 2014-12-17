@@ -4,8 +4,7 @@ var scrub = function (word) {
 Template.words.rendered = function () {
 	this.autorun(function () {
 		var temp = Template.currentData();
-		$('.new-tooltip').tooltip();
-		$('.new-tooltip').removeClass('new-tooltip');
+		$('[data-toggle=tooltip]').tooltip();
 
 	});
 };
@@ -15,10 +14,73 @@ Template.words.helpers({
 			return this;
 		}
 	},
+	firstDate: function () {
+		if (this) {
+			var formatStr = 'h:mm:ss a';
+			var that = this.fetch();
+			var firstTime = that[0].time;
+			var lastTime = that[that.length-1].time;
+			var firstDay = moment(firstTime).format('YYYY-MM-DD');
+			var lastDay = moment(lastTime).format('YYYY-MM-DD');
+
+			if (moment(lastDay).diff(firstDay, 'days')) formatStr = 'MM/D/YY - ' + formatStr;
+			return moment(firstTime).format(formatStr);
+		}
+
+	},
+	lastDate: function () {
+
+		if (this) {
+			var formatStr = 'h:mm:ss a';
+			var that = this.fetch();
+			var firstTime = that[0].time;
+			var lastTime = that[that.length-1].time;
+			var firstDay = moment(firstTime).format('YYYY-MM-DD');
+			var lastDay = moment(lastTime).format('YYYY-MM-DD');
+			if (moment(lastDay).diff(firstDay, 'days')) formatStr = 'MM/D/YY - '+ formatStr ;
+			return moment(lastTime).format(formatStr);
+		}
+
+	},
 	moment: function () {
 		return moment(this.time).format('h:mm:ss a - MMMM Do, YYYY');
-	}
-});
+	},
+	progressStyle: function () {
+		var status = Session.get('status');
+		if (status) {
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs.percent == 100) {
+				if (pvs.votes == 0) {
+					return 'progress-bar-warning';
+				}
+				return 'progress-bar-success';
+			}
+		}
+	},
+	percent: function () {
+		var status = Session.get('status');
+		if (status) {
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs) return pvs.percent;
+		}
+		return 0;
+	},
+	newVotes: function () {
+		var status = Session.get('status');
+		if (status) {
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs) return pvs.votes;
+		}
+		return 0;
+	},
+	pluralizeVote: function () {
+		var status = Session.get('status');
+		if (status) {
+			var pvs = pvStatus.findOne({statusId: status._id});
+			if (pvs) return (pvs.votes == 1? '':'s');
+		}
+}
+	});
 
 Template.wordInput.helpers({
 	voting: function () {
@@ -38,40 +100,6 @@ Template.wordInput.helpers({
 				if (votes.count()) return Votes.find({number: status.wordNum}, {sort: {time: -1}, limit: 5});
 				return 0;
 			}
-		}
-	},
-	progressStyle: function () {
-		var status = Session.get('status');
-		if (status) {
-			if (status.percent == 100) {
-				if (status.votes == 0) {
-					return 'progress-bar-warning';
-				}
-				return 'progress-bar-success';
-			}
-		}
-	},
-	percent: function () {
-		var status = Session.get('status');
-		if (status) {
-			var pvs = pvStatus.findOne({statusId: status._id});
-			if (pvs) return pvs.percent;
-		}
-		return 0;
-	},
-	votes: function () {
-		var status = Session.get('status');
-		if (status) {
-			var pvs = pvStatus.findOne({statusId: status._id});
-			if (pvs) return pvs.votes;
-		}
-		return 0;
-	},
-	pluralizeVote: function () {
-		var status = Session.get('status');
-		if (status) {
-			var pvs = pvStatus.findOne({statusId: status._id});
-			if (pvs.votes != 1) return 's';
 		}
 	},
 	currentVote: function () {

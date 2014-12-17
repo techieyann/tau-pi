@@ -81,7 +81,7 @@ processVotes = function () {
 						word: winningWord,
 						number: status.wordNum,
 						votes: highest,
-						totalVotes: status.votes,
+						totalVotes: pv.votes,
 						time: votedAt,
 						votedBy: membersByWord[winningWord]
 					};

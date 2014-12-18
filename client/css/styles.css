@@ -26,19 +26,47 @@ body{
 #words-well{
 		position:relative;
 }
+#prev-page-arrow{
+		position:absolute;
+		left:-25px;
+
+		top:0px;
+}
+#next-page-arrow{
+		position:absolute;
+		right:-25px;
+		bottom:0px;
+}
 #first-date{
 		position: absolute;
 		top:-20px;
-		left:0px;
+		left:-25px;
 		color: #cccccc;
 }
 
 #last-date{
 		position: absolute;
 		bottom:-20px;
-		right:0px;
+		right:-25px;
 		color: #bbbbbb;
 }
+@media screen and (max-width: 768px){
+		#prev-page-arrow{
+				left:-15px;
+		}
+		#next-page-arrow{
+				right:-15px;
+		}
+		#first-date{
+				left:-15px;
+		}
+		#last-date{
+				right:-15px;
+		}
+
+}
+
+
 
 .full-width{
 		width:100%;

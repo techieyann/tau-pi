@@ -1,11 +1,12 @@
 var scrub = function (word) {
 	return word.replace(/[0123456789_\W]/g, '');
 };
+
 Template.words.rendered = function () {
 	this.autorun(function () {
-		var temp = Template.currentData();
+		var status = Status.findOne();
+		var pageNum = Session.get("pageNum");
 		$('[data-toggle=tooltip]').tooltip();
-
 	});
 };
 Template.words.helpers({
@@ -14,8 +15,21 @@ Template.words.helpers({
 			return this;
 		}
 	},
+	prevPage: function () {
+		var pageNum = Session.get("pageNum");
+		var status = Session.get("status");
+		if (status) {
+			if ((pageNum+1) <= Math.ceil(status.wordNum/NUM_WORDS)) return pageNum+1;
+		}
+		return 0;
+	},
+	nextPage: function () {
+		var pageNum = Session.get("pageNum");
+		return pageNum - 1;
+	},
 	firstDate: function () {
 		if (this) {
+			if (this.count()) {
 			var formatStr = 'h:mm:ss a';
 			var that = this.fetch();
 			var firstTime = that[0].time;
@@ -25,20 +39,23 @@ Template.words.helpers({
 
 			if (moment(lastDay).diff(firstDay, 'days')) formatStr = 'MM/D/YY - ' + formatStr;
 			return moment(firstTime).format(formatStr);
+			}
 		}
 
 	},
 	lastDate: function () {
 
 		if (this) {
-			var formatStr = 'h:mm:ss a';
-			var that = this.fetch();
-			var firstTime = that[0].time;
-			var lastTime = that[that.length-1].time;
-			var firstDay = moment(firstTime).format('YYYY-MM-DD');
-			var lastDay = moment(lastTime).format('YYYY-MM-DD');
-			if (moment(lastDay).diff(firstDay, 'days')) formatStr = 'MM/D/YY - '+ formatStr ;
-			return moment(lastTime).format(formatStr);
+			if (this.count()) {
+				var formatStr = 'h:mm:ss a';
+				var that = this.fetch();
+				var firstTime = that[0].time;
+				var lastTime = that[that.length-1].time;
+				var firstDay = moment(firstTime).format('YYYY-MM-DD');
+				var lastDay = moment(lastTime).format('YYYY-MM-DD');
+				if (moment(lastDay).diff(firstDay, 'days')) formatStr = 'MM/D/YY - '+ formatStr ;
+				return moment(lastTime).format(formatStr);
+			}
 		}
 
 	},

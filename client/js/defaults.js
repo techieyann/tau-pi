@@ -1,4 +1,4 @@
 Meteor.startup(function () {
 	Session.setDefault("alertMessage", null);
-	Session.setDefault('earlier', false);
+	Session.setDefault('pageNum', 1);
 });

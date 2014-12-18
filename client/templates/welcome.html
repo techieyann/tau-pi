@@ -1,7 +1,9 @@
 <template name="welcome">
 	{{> words}}
 	{{#if currentUser}}
+	{{#if pageOne}}
 	{{> wordInput}}
+	{{/if}}
 	{{else}}
 	{{> explanation}}
 	{{/if}}

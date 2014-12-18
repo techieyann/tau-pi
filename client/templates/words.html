@@ -1,13 +1,19 @@
 <template name="words">
 	<div id="words-row" class="row">
-		<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-			<div class="centered"><a class="white" href="{{pathFor route='history'}}">Previously, on &tau;-&pi;</a></div><br>
+
+		<div class="col-xs-12 col-sm-8 col-md-6  col-sm-offset-2 col-md-offset-3">
 			<div id="words-well" class="well">
+			{{#if prevPage}}
+					<a href="?page={{prevPage}}"><div id="prev-page-arrow"><span class="white glyphicon glyphicon-chevron-left"></span></div>		</a>
+			{{/if}}
 			<div id="first-date">{{firstDate}}</div>
 				{{#each words}}
 				<span class="new-tooltip" data-toggle="tooltip" data-placement="bottom" title="votes:{{votes}} {{#if totalVotes}}of:{{totalVotes}}{{/if}} @{{moment}}">{{word}} </span>
 				{{/each}}
 			<div id="last-date"><br>{{lastDate}}</div>
+			{{#if nextPage}}
+			<div id="next-page-arrow"><a href="?page={{nextPage}}"><span class="white glyphicon glyphicon-chevron-right"></span></a></div>
+			{{/if}}
 			</div>
 			<div class="progress transparent">
 				<div class="progress-bar {{progressStyle}}" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">

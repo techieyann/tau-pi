@@ -38,22 +38,4 @@ Router.map(function () {
 			}
 		}
 	});
-	this.route('history', {
-		path: '/history',
-		controller: 'BaseController',
-		subscriptions: function () {
-			this.wait(Meteor.subscribe('status'));
-			this.wait(Meteor.subscribe('words'));
-		},
-		data: function () {
-			Session.set('status', Status.findOne());
-			var status = Session.get('status');
-
-			if (status) {
-				skipWords = 0;
-				var limitWords = status.wordNum-NUM_WORDS;
-				return Words.find({}, {skip: skipWords, limit: limitWords});
-			}
-		}
-	});
 });

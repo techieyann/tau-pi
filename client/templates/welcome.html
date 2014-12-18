@@ -1,4 +1,7 @@
 <template name="welcome">
+	{{#unless currentUser}}
+	{{> explanation}}
+	{{/unless}}
 	{{> words}}
 	{{#if currentUser}}
 	{{#if pageOne}}
@@ -6,8 +9,6 @@
 	{{else}}
 	{{> backToVoting}}
 	{{/if}}
-	{{else}}
-	{{> explanation}}
 	{{/if}}
 </template>
 

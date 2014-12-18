@@ -27,20 +27,26 @@ body{
 		position:relative;
 }
 #page-head{
-		position:relative;
-		top:-40px;
-		margin-bottom:-20px;
+		position:absolute;
+		top:-20px;
+		right: 0px;
 }
 #prev-page-arrow{
 		position:absolute;
 		left:-25px;
 
-		top:0px;
+		top:15px;
+}
+
+#first-page-arrow{
+		position:absolute;
+		right:-25px;
+		top:-20px;
 }
 #next-page-arrow{
 		position:absolute;
 		right:-25px;
-		bottom:0px;
+		bottom:15px;
 }
 #first-date{
 		position: absolute;
@@ -49,6 +55,12 @@ body{
 		color: #cccccc;
 }
 
+#same-date{
+		position: absolute;
+		bottom:-20px;
+		left:-25px;
+		color: #bbbbbb;
+}
 #last-date{
 		position: absolute;
 		bottom:-20px;
@@ -56,19 +68,16 @@ body{
 		color: #bbbbbb;
 }
 @media screen and (max-width: 768px){
-		#prev-page-arrow{
+		#prev-page-arrow,
+		#first-date,
+		#same-date{
 				left:-15px;
 		}
-		#next-page-arrow{
-				right:-15px;
-		}
-		#first-date{
-				left:-15px;
-		}
+		#next-page-arrow,
+		#first-page-arrow,
 		#last-date{
 				right:-15px;
 		}
-
 }
 
 

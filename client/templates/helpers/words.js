@@ -2,12 +2,31 @@ var scrub = function (word) {
 	return word.replace(/[0123456789_\W]/g, '');
 };
 
+var checkSameDate = function (words) {
+	
+	if (words) {
+		if (words.count()) {
+			console.log(words.count());
+			var that = words.fetch();
+			var firstTime = that[0].time;
+			var lastTime = that[that.length-1].time;
+			var firstDay = moment(firstTime).format('YYYY-MM-DD');
+			var lastDay = moment(lastTime).format('YYYY-MM-DD');
+
+			if (!moment(lastDay).diff(firstDay, 'days')) return moment(lastTime).format('MMMM Do, YYYY');
+			return '';
+		}
+	}
+};
+
 Template.words.rendered = function () {
 	this.autorun(function () {
 		var temp = Template.currentData();
 		$('[data-toggle=tooltip]').tooltip();
 	});
 };
+
+
 Template.words.helpers({
 	words: function () {
 		if (this) {
@@ -29,6 +48,9 @@ Template.words.helpers({
 		var pageNum = Session.get("pageNum");
 		return pageNum - 1;
 	},
+	sameDate: function () {
+		return checkSameDate(this);
+	},
 	firstDate: function () {
 		if (this) {
 			if (this.count()) {
@@ -38,7 +60,7 @@ Template.words.helpers({
 			var lastTime = that[that.length-1].time;
 			var firstDay = moment(firstTime).format('YYYY-MM-DD');
 			var lastDay = moment(lastTime).format('YYYY-MM-DD');
-
+				
 			if (moment(lastDay).diff(firstDay, 'days')) formatStr = 'MM/D/YY - ' + formatStr;
 			return moment(firstTime).format(formatStr);
 			}

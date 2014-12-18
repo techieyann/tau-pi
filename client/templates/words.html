@@ -8,7 +8,7 @@
 					<a href="?page={{prevPage}}"><div id="prev-page-arrow"><span class="white glyphicon glyphicon-chevron-left"></span></div>		</a>
 			{{/if}}
 			<div id="first-date">{{firstDate}}</div>
-			<div id="page-head" class="centered white" >
+			<div id="page-head" class="white" >
 				<strong>			
 					Page {{pageNum}}
 				</strong>
@@ -16,8 +16,12 @@
 				{{#each words}}
 				<span class="new-tooltip" data-toggle="tooltip" data-placement="bottom" title="votes:{{votes}} {{#if totalVotes}}of:{{totalVotes}}{{/if}} @{{moment}}">{{word}} </span>
 				{{/each}}
+			{{#if sameDate}}
+			<div id="same-date"><br>{{sameDate}}</div>
+				{{/if}}
 			<div id="last-date"><br>{{lastDate}}</div>
 			{{#if nextPage}}
+			<div id="first-page-arrow"><a href="/"><span class="white glyphicon glyphicon-step-forward"></span></a></div>
 			<div id="next-page-arrow"><a href="?page={{nextPage}}"><span class="white glyphicon glyphicon-chevron-right"></span></a></div>
 			{{/if}}
 			</div>

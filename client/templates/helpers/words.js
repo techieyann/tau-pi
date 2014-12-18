@@ -4,8 +4,7 @@ var scrub = function (word) {
 
 Template.words.rendered = function () {
 	this.autorun(function () {
-		var status = Status.findOne();
-		var pageNum = Session.get("pageNum");
+		var temp = Template.currentData();
 		$('[data-toggle=tooltip]').tooltip();
 	});
 };
@@ -14,6 +13,9 @@ Template.words.helpers({
 		if (this) {
 			return this;
 		}
+	},
+	pageNum: function () {
+		return Session.get("pageNum");
 	},
 	prevPage: function () {
 		var pageNum = Session.get("pageNum");
@@ -198,5 +200,11 @@ Template.wordInput.events = {
 			});
 		}
 		else alert('warning', 'Currently tabulating votes, please wait.');
+	}
+};
+
+Template.backToVoting.events = {
+	'click #back-to-voting': function (e) {
+		Router.go('/');
 	}
 };

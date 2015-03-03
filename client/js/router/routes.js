@@ -17,11 +17,11 @@ Router.map(function () {
 			var query = this.params.query;
 			if (status) {
 				if (query.page) {
-					var pageNum = parseInt(query.page);
-					Session.set('pageNum', pageNum);
-					if (pageNum  <= Math.ceil(status.wordNum/NUM_WORDS)) {
+					var currentPage = parseInt(query.page);
+					Session.set('pageNum', currentPage);
+					if (currentPage  <= Math.floor(status.wordNum/NUM_WORDS)) {
 						var limitWords = NUM_WORDS;
-						var skipWords = status.wordNum-(NUM_WORDS*pageNum);
+						var skipWords = NUM_WORDS*(currentPage-1);
 						if (skipWords < 0) {
 							limitWords = limitWords + skipWords;
 							skipWords = 0;
@@ -30,11 +30,19 @@ Router.map(function () {
 					}
 					else Router.go('/');
 				}
-				else Session.set('pageNum', 1);
-				if (status.wordNum > NUM_WORDS) {
-					return Words.find({}, {skip: status.wordNum-NUM_WORDS, limit: NUM_WORDS});				
+				else {
+					var currentPage = Math.ceil(status.wordNum/NUM_WORDS);
+					var previousWords = 0;
+					if (currentPage == ((status.wordNum-1)/NUM_WORDS)+1) previousWords = 10;
+					Session.set('pageNum', currentPage);
+					if (status.wordNum > NUM_WORDS) {
+						var filter = {
+							skip: (NUM_WORDS*(currentPage-1))-previousWords
+						};
+						return Words.find({}, filter);				
+					}
+					return Words.find();
 				}
-				return Words.find();
 			}
 		}
 	});

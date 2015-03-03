@@ -3,27 +3,36 @@
 	<div id="words-row" class="row">
 
 		<div class="col-xs-12 col-sm-8 col-md-6  col-sm-offset-2 col-md-offset-3">
-			<div id="words-well" class="well">
-			{{#if prevPage}}
-					<a href="?page={{prevPage}}"><div id="prev-page-arrow"><span class="white glyphicon glyphicon-chevron-left"></span></div>		</a>
-			{{/if}}
-			<div id="first-date">{{firstDate}}</div>
-			<div id="page-head" class="white" >
-				<strong>			
-					Page {{pageNum}}
-				</strong>
-			</div>
-				{{#each words}}
-				<span class="new-tooltip" data-toggle="tooltip" data-placement="bottom" title="votes:{{votes}} {{#if totalVotes}}of:{{totalVotes}}{{/if}} @{{moment}}">{{word}} </span>
-				{{/each}}
-			{{#if sameDate}}
-			<div id="same-date"><br>{{sameDate}}</div>
+			<div id="words-well" class="well {{#unless wordCount}}grey{{/unless}}">
+
+				<div id="first-date">{{firstDate}}</div>
+				<div id="page-number">
+						Page {{pageNum}}
+				</div>
+				{{#if frontPage}}
+				<div id="word-number">
+					({{wordCount}}/{{wordsPerPage}})
+				</div>
 				{{/if}}
-			<div id="last-date"><br>{{lastDate}}</div>
-			{{#if nextPage}}
-			<div id="first-page-arrow"><a href="/"><span class="white glyphicon glyphicon-step-forward"></span></a></div>
-			<div id="next-page-arrow"><a href="?page={{nextPage}}"><span class="white glyphicon glyphicon-chevron-right"></span></a></div>
-			{{/if}}
+
+				{{#each words}}
+			  {{word}}
+				{{/each}}
+{{#unless wordCount}}
+...
+{{/unless}}
+				{{#if sameDate}}
+				<div id="same-date"><br>{{sameDate}}</div>
+				{{/if}}
+				<div id="last-date"><br>{{lastDate}}</div>
+				{{#if prevPage}}
+				<a href="?page={{prevPage}}"><div id="prev-page-arrow"><span class="white glyphicon glyphicon-chevron-left"></span></div></a>
+				<a href="/?page=1"><div id="first-page-arrow"><span class="white glyphicon glyphicon-step-backward"></span></div></a>
+				{{/if}}
+				{{#if nextPage}}
+				<div id="next-page-arrow"><a href="{{#if penultimatePage}}/{{else}}?page={{nextPage}}{{/if}}"><span class="white glyphicon glyphicon-chevron-right"></span></a></div>
+				<div id="last-page-arrow"><a href="/"><span class="white glyphicon glyphicon-step-forward"></span></a></div>
+				{{/if}}
 			</div>
 			<div class="progress transparent">
 				<div class="progress-bar {{progressStyle}}" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%;">
@@ -51,12 +60,9 @@
 		{{/if}}
 	</div>
 	<div class="row">
-		<div class="col-xs-10 col-sm-6 col-md-2 col-xs-offset-1 col-sm-offset-4 col-md-offset-5">
-
-			{{#if voting}}
-
+		<div class="col-xs-10 col-sm-6 col-md-2 col-xs-offset-1 col-sm-offset-3 col-md-offset-5">
 			<form id="new-word-form" class="form-inline full-width" role="form">
-				<div class="input-group">
+				<div class="input-group full-width">
 					<input type="text" class="form-control" id="new-word" name="word" placeholder="{{currentVote}}">
 					<span class="input-group-btn">
 						<button id="new-word-submit" class="btn btn-default" value="submit" type="button" ><span class="glyphicon glyphicon-ok"></span></button>
@@ -66,9 +72,6 @@
 			</form>
 			{{#if numWordsWon}}
 			<p class="white centered">Words: {{numWordsWon}}</p> 
-			{{/if}}
-			{{else}}
-			<p class="white centered">Currently tabulating votes</p>
 			{{/if}}
 		</div>
 	</div>

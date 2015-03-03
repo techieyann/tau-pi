@@ -6,7 +6,6 @@ var checkSameDate = function (words) {
 	
 	if (words) {
 		if (words.count()) {
-			console.log(words.count());
 			var that = words.fetch();
 			var firstTime = that[0].time;
 			var lastTime = that[that.length-1].time;
@@ -36,7 +35,23 @@ Template.words.helpers({
 	pageNum: function () {
 		return Session.get("pageNum");
 	},
-	prevPage: function () {
+	wordCount: function () {
+		var status = Session.get("status");
+		if (status) {
+			return (status.wordNum-1) % NUM_WORDS;
+		}
+	},
+	wordsPerPage: function () {
+		return NUM_WORDS;
+	},
+	penultimatePage: function (){
+		var pageNum = Session.get("pageNum");
+		var status = Session.get("status");
+		if (status) {
+			return pageNum == Math.ceil(status.wordNum/NUM_WORDS)-1;
+		}
+	},
+	nextPage: function () {
 		var pageNum = Session.get("pageNum");
 		var status = Session.get("status");
 		if (status) {
@@ -44,7 +59,7 @@ Template.words.helpers({
 		}
 		return 0;
 	},
-	nextPage: function () {
+	prevPage: function () {
 		var pageNum = Session.get("pageNum");
 		return pageNum - 1;
 	},

@@ -26,56 +26,72 @@ body{
 #words-well{
 		position:relative;
 }
-#page-head{
+#word-number{
 		position:absolute;
-		top:-20px;
-		right: 0px;
+		bottom:0px;
+		left: 5px;
+		color:#aaaaaa;
+}
+#page-number{
+		position:absolute;
+		top:0px;
+		right: 5px;
+		color:#aaaaaa;
 }
 #prev-page-arrow{
 		position:absolute;
 		left:-25px;
 
-		top:15px;
+		top:6px;
 }
 
 #first-page-arrow{
 		position:absolute;
-		right:-25px;
-		top:-20px;
+		left:-25px;
+		bottom:6px;
+		z-index:1;
 }
 #next-page-arrow{
 		position:absolute;
 		right:-25px;
-		bottom:15px;
+		top:6px;
+}
+#last-page-arrow{
+		position:absolute;
+		right:-25px;
+		bottom:6px;
+		z-index:1;
 }
 #first-date{
 		position: absolute;
 		top:-20px;
-		left:-25px;
+		left:0px;
 		color: #cccccc;
 }
 
 #same-date{
 		position: absolute;
 		bottom:-20px;
-		left:-25px;
-		color: #bbbbbb;
+		left:0px;
+		color: #cccccc;
+		z-index:100;
 }
 #last-date{
 		position: absolute;
 		bottom:-20px;
-		right:-25px;
-		color: #bbbbbb;
+		right:0px;
+		color: #cccccc;
+		z-index:100;
 }
 @media screen and (max-width: 768px){
 		#prev-page-arrow,
-		#first-date,
-		#same-date{
+		#first-page-arrow
+		{
 				left:-15px;
 		}
 		#next-page-arrow,
-		#first-page-arrow,
-		#last-date{
+		#last-page-arrow
+		{
 				right:-15px;
 		}
 }
@@ -92,6 +108,10 @@ body{
 
 .white{
 		color:white;
+}
+
+.grey{
+		color:#aaaaaa;
 }
 
 .transparent{

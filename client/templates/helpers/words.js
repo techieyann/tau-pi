@@ -44,6 +44,13 @@ Template.words.helpers({
 	wordsPerPage: function () {
 		return NUM_WORDS;
 	},
+	emptyFrontPage: function () {
+		var pageNum = Session.get("pageNum");
+		var status = Session.get("status");
+		if (status) {
+			return pageNum == Math.ceil(status.wordNum/NUM_WORDS) && !((status.wordNum-1) % NUM_WORDS);
+		}		
+	},
 	penultimatePage: function (){
 		var pageNum = Session.get("pageNum");
 		var status = Session.get("status");

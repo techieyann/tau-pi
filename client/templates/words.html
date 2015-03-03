@@ -3,7 +3,7 @@
 	<div id="words-row" class="row">
 
 		<div class="col-xs-12 col-sm-8 col-md-6  col-sm-offset-2 col-md-offset-3">
-			<div id="words-well" class="well {{#unless wordCount}}grey{{/unless}}">
+			<div id="words-well" class="well {{#if emptyFrontPage}}grey{{/if}}">
 
 				<div id="first-date">{{firstDate}}</div>
 				<div id="page-number">
@@ -18,9 +18,9 @@
 				{{#each words}}
 			  {{word}}
 				{{/each}}
-{{#unless wordCount}}
+{{#if emptyFrontPage}}
 ...
-{{/unless}}
+{{/if}}
 				{{#if sameDate}}
 				<div id="same-date"><br>{{sameDate}}</div>
 				{{/if}}

@@ -4,15 +4,14 @@
 # but you can also edit it by hand.
 
 meteor-platform
-insecure
 accounts-password
 jquery
 mrt:moment
 iron:router
 nemo64:bootstrap
-mrt:accounts-ui-bootstrap-3
 less
 accounts-facebook
 accounts-twitter
 accounts-google
 
+accounts-ui
